@@ -1,3 +1,6 @@
 # Bordspil
 # Höfundar
-* Apríl Rós Baldursdóttir - Dagur Örvarsson - Helga Lilja Eyþórsdóttir - Kristófer Svavar Róbertsson
+* Apríl Rós Baldursdóttir
+* Dagur Örvarsson
+* Helga Lilja Eyþórsdóttir
+* Kristófer Svavar Róbertsson

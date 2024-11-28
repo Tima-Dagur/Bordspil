@@ -5,7 +5,7 @@
 * Helga Lilja Eyþórsdóttir
 * Kristófer Svavar Róbertsson
 
-## Leikjspilun
+## Leikjaspilun
 21
 
 Markmiðið er að vera eins nálægt 21

@@ -15,5 +15,3 @@ Markmiðið er að vera eins nálægt 21
 Fyrsti leikmaður má velja á milli að snúa aftur, eða stoppa. Það má snúa eins oft og leikmaður vill, en ef leikmaður fer yfir 21, þá tapar hann.
 
 Þegar leikmaður stoppar eða tapar, þá gerir næsti leikmaður
-
-Gurr

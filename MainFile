@@ -1,0 +1,131 @@
+from machine import Pin, PWM
+from time import sleep_ms
+import neopixel, random
+
+npPin = 48
+bPin = 9 #Button Pin
+blPin = 14 #Button Light Pin
+rsPin1 = 46 #ReedSwitch Pin 1 #Sigur
+rsPin2 = 3 #ReedSwitch Pin 1 #Tap
+htPin = 5 #Hátalari Pin
+
+np = neopixel.NeoPixel(Pin(npPin), 16)
+
+light = Pin(blPin, Pin.OUT)
+
+button = Pin(bPin, Pin.IN, Pin.PULL_UP) #Tengja í -
+
+vinnaSwi = Pin(rsPin1, Pin.IN, Pin.PULL_UP)
+tapaSwi = Pin(rsPin2, Pin.IN, Pin.PULL_UP)
+
+hatalari = PWM(Pin(htPin), freq=1000)
+
+vValue = 0
+lValue = 0
+
+hatalari.duty(0)
+
+def spin(number):
+    light.value(0)
+    for i in range(number):
+        np[i*2] = (32, 0, 32)
+        np[(i*2)-1] = (32, 0, 32)
+        
+        np.write()
+        sleep_ms(75)
+        np[i*2] = (0, 0, 0)
+        np[(i*2)-1] = (0, 0, 0)
+    light.value(1)
+
+def victorylag():
+    hatalari.duty(512)
+    hatalari.freq(440)
+    sleep_ms(300)
+    
+    hatalari.duty(0)
+    sleep_ms(10)
+    
+    hatalari.duty(512)
+    hatalari.freq(440)
+    sleep_ms(200)
+    
+    hatalari.duty(0)
+    sleep_ms(10)
+    
+    hatalari.duty(512)
+    hatalari.freq(440)
+    sleep_ms(200)
+    
+    hatalari.duty(0)
+    sleep_ms(10)
+    
+    hatalari.duty(512)
+    hatalari.freq(660)
+    sleep_ms(800)
+    
+    hatalari.duty(0)
+    
+    
+    
+def taplag():
+    hatalari.duty(512)
+    hatalari.freq(220)
+    sleep_ms(500)
+    
+    hatalari.duty(512)
+    hatalari.freq(208)
+    sleep_ms(650)
+    
+    hatalari.duty(512)
+    hatalari.freq(196)
+    sleep_ms(900)
+    
+    hatalari.duty(512)
+    hatalari.freq(185)
+    sleep_ms(1100)
+    
+    hatalari.duty(0)
+
+while True:
+
+    #Fills the stock with cards if the stock is empty. I put this here instead of just at the start in case the players somehow empty the stock.
+    #A remnant, of a more a civilized age.
+    '''if len(stock) == 0:
+        for x in range(4):
+            for i in range(8):
+                stock.append(i+1)'''
+    
+    #Here we wait until the player hits the button, or a win is reached.
+    while True:
+        
+        if button.value() == 0:
+            
+            sleep_ms(200)
+            
+            while button.value() == 0: #Debounce, sort of
+                sleep_ms(10)
+            
+            spin(8)
+            spin(8)
+            spin(random.randint(1, 8))
+        
+        elif vinnaSwi.value() == 0:
+            if vValue == 0:
+                victorylag()
+                vValue = 20
+            elif vValue <= 20:
+                vValue += 2
+                
+        elif tapaSwi.value() == 0:
+            if lValue == 0:
+                taplag()
+                lValue = 20
+            elif lValue <= 20:
+                lValue += 2
+                
+        if vValue != 0:
+            vValue -= 1
+        if lValue != 0:
+            lValue -= 1                
+
+        sleep_ms(10)
